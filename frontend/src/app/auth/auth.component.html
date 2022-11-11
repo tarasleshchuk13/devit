@@ -1,0 +1,71 @@
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <nav mat-stretch-tabs mat-tab-nav-bar mat-align-tabs="center">
+            <a
+                mat-tab-link
+                [active]="isLoginPage"
+                routerLink="/login"
+            >
+                Login
+            </a>
+            
+            <a
+                mat-tab-link
+                [active]="!isLoginPage"
+                routerLink="/register"
+            >
+                Registration
+            </a>
+        </nav>
+        
+        <div class="errors" *ngIf="backendError">
+            <div
+                class="error-message"
+                *ngFor="let error of backendError"
+            >
+                {{ error }}
+            </div>
+        </div>
+        
+        <div class="inputs">
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input
+                    type="email"
+                    matInput
+                    formControlName="email"
+                >
+                <mat-error
+                    *ngIf="this.form.get('email')?.errors && this.form.get('email')?.touched"
+                >
+                    Please enter a valid email address
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input
+                    type="password"
+                    matInput
+                    formControlName="password"
+                >
+                <mat-error
+                    *ngIf="this.form.get('password')?.errors && this.form.get('password')?.touched"
+                >
+                    Please enter a valid password
+                </mat-error>
+            </mat-form-field>
+        </div>
+        
+        <button
+            mat-raised-button color="primary"
+            type="submit"
+            *ngIf="!loading"
+        >Submit
+        </button>
+        
+        <div class="loader-wrap" *ngIf="loading">
+            <app-loader></app-loader>
+        </div>
+    </form>
+</div>

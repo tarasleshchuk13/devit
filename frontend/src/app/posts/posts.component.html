@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="container">
+    <div class="header">
+        <mat-form-field class="input-field" appearance="fill">
+            <mat-label>Search</mat-label>
+            <input
+                matInput
+                placeholder="Search"
+                [(ngModel)]="searchString"
+                (ngModelChange)="searchChange()"
+            >
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Date</mat-label>
+            <mat-select
+                [(ngModel)]="selectedOption"
+                (selectionChange)="selectChange()"
+            >
+                <mat-option *ngFor="let option of options" [value]="option.value">
+                    {{ option.viewValue }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    
+    <button
+        mat-raised-button color="primary"
+        class="add"
+        (click)="showCreatePostPopup = true"
+    >
+        Creat new post
+    </button>
+    
+    <div *ngIf="!postsLoading; else loader">
+        <div class="posts" *ngIf="posts.length > 0; else noPosts">
+            <h3>Posts</h3>
+            
+            <a
+                class="card"
+                *ngFor="let post of posts"
+                [routerLink]="['/posts', post.id]"
+            >
+                {{ post.title }}
+                <div class="date">{{ post.createdDate | date:'MMM d, y'}}</div>
+            </a>
+        </div>
+        
+        <ng-template #noPosts>
+            <h3 class="no-posts">
+                {{ searchString.trim().length > 0 ? 'Posts not found' : 'You do not have posts' }}
+            </h3>
+        </ng-template>
+        
+        <div class="pagination" *ngIf="pageCount > 1">
+            <button (click)="changePage(currentPage - 1)"><</button>
+            <button
+                *ngFor="let page of getPageNumbersArray()"
+                [class.active]="page === currentPage"
+                (click)="changePage(page)"
+            >
+                {{ page }}
+            </button>
+            <button (click)="changePage(currentPage + 1)">></button>
+        </div>
+    </div>
+    
+    <ng-template #loader>
+        <div class="loader-wrap">
+            <app-loader></app-loader>
+        </div>
+    </ng-template>
+</div>
+
+<app-create-or-edit-post-popup
+    *ngIf="showCreatePostPopup"
+    (onClose)="showCreatePostPopup = false"
+></app-create-or-edit-post-popup>

@@ -1,0 +1,55 @@
+<div class="overlay" (click)="onClose.emit()">
+    <form
+        class="popup"
+        (click)="popupClick($event)"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+    >
+        <h3>{{ post ? 'Edit post' : 'Create post' }}</h3>
+    
+        <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input
+                type="text"
+                matInput
+                formControlName="title"
+            >
+            <mat-error
+                *ngIf="this.form.get('title')?.errors && this.form.get('title')?.touched"
+            >
+                This field is required
+            </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Content</mat-label>
+            <textarea
+                type="text"
+                matInput
+                formControlName="content"
+            ></textarea>
+            <mat-error
+                *ngIf="this.form.get('content')?.errors && this.form.get('content')?.touched"
+            >
+                This field is required
+            </mat-error>
+        </mat-form-field>
+    
+        <button
+            mat-raised-button color="primary"
+            class="submit"
+            type="submit"
+            *ngIf="!loading"
+        >Submit
+        </button>
+    
+        <div class="loader-wrap" *ngIf="loading">
+            <app-loader></app-loader>
+        </div>
+        
+        <button class="close" (click)="onClose.emit()">
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
+    </form>
+</div>

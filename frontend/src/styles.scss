@@ -1,0 +1,24 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #fafafa;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 15px;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto 10px;
+}

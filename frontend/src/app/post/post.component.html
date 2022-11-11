@@ -1,0 +1,45 @@
+<app-header></app-header>
+
+<div class="container">
+    
+    <div *ngIf="!postLoading; else loader">
+        <h1>{{ post.title }}</h1>
+        <div class="date">{{ post.createdDate | date:'MMM d, y, HH:mm' }}</div>
+        <div class="content" [innerHTML]="post.content">{{ post.content }}</div>
+        
+        <div class="buttons" *ngIf="!deleteLoading; else deleteLoader">
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="shoeEditPostPopup = true"
+            >
+                Edit post
+            </button>
+            
+            <button
+                mat-raised-button
+                color="warn"
+                (click)="deletePost()"
+            >
+                Delete post
+            </button>
+        </div>
+        
+        <ng-template #deleteLoader>
+                <app-loader></app-loader>
+        </ng-template>
+    </div>
+    
+    <ng-template #loader>
+        <div class="loader-wrap">
+            <app-loader></app-loader>
+        </div>
+    </ng-template>
+
+</div>
+
+<app-create-or-edit-post-popup
+    *ngIf="shoeEditPostPopup"
+    (onClose)="shoeEditPostPopup = false"
+    [post]="post"
+></app-create-or-edit-post-popup>
